@@ -1,6 +1,7 @@
 package com.pepedevs.discordmessenger;
 
 import com.google.gson.JsonObject;
+import com.pepedevs.discordmessenger.listener.EventListener;
 import com.pepedevs.discordmessenger.messagable.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -31,6 +32,8 @@ public final class DiscordMessenger extends JavaPlugin {
         Config config = new Config();
         config.load(configuration);
 
+        this.getServer().getPluginManager().registerEvents(new EventListener(), this);
+
         JedisPoolConfig jedisConfig = new JedisPoolConfig();
         jedisConfig.setMaxTotal(10);
         this.jedisPool = new JedisPool(jedisConfig, config.getHost(), config.getPort(), 0, config.getPassword(), false);
@@ -41,14 +44,16 @@ public final class DiscordMessenger extends JavaPlugin {
     }
 
     public static void sendMessage(String channelId, Message message) {
-        try (Jedis jedis = instance.getJedisPool().getResource()) {
-            JsonObject json = message.toJson();
-            json.addProperty("channel", channelId);
-            json.add("object", message.toJson());
-            JsonObject obj = new JsonObject();
-            obj.add(message.getType(), json);
-            jedis.publish(CHANNEL, obj.toString());
-        }
+        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
+            try (Jedis jedis = instance.getJedisPool().getResource()) {
+                JsonObject json = message.toJson();
+                json.addProperty("channel", channelId);
+                json.add("object", message.toJson());
+                JsonObject obj = new JsonObject();
+                obj.add(message.getType(), json);
+                jedis.publish(CHANNEL, obj.toString());
+            }
+        });
     }
 
     public static DiscordMessenger getInstance() {
