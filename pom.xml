@@ -89,5 +89,19 @@
             <artifactId>configuration-utils</artifactId>
             <version>1.2.0-BETA-1.9-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.zrips</groupId>
+            <artifactId>cmi-api</artifactId>
+            <version>8.7.8.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/CMIAPI8.7.8.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.leoko.advancedban</groupId>
+            <artifactId>AdvancedBan</artifactId>
+            <version>2.1.6</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/AdvancedBan-Bundle-2.3.0-RELEASE (1).jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
