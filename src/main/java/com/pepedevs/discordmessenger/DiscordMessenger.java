@@ -46,7 +46,7 @@ public final class DiscordMessenger extends JavaPlugin {
     public static void sendMessage(String channelId, Message message) {
         instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
             try (Jedis jedis = instance.getJedisPool().getResource()) {
-                JsonObject json = message.toJson();
+                JsonObject json = new JsonObject();
                 json.addProperty("channel", channelId);
                 json.add("object", message.toJson());
                 JsonObject obj = new JsonObject();
