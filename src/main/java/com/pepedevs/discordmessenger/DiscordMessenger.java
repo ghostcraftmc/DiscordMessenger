@@ -1,8 +1,13 @@
 package com.pepedevs.discordmessenger;
 
+import com.Zrips.CMI.CMI;
 import com.google.gson.JsonObject;
+import com.pepedevs.discordmessenger.listener.AnticheatHook;
+import com.pepedevs.discordmessenger.listener.BansHook;
+import com.pepedevs.discordmessenger.listener.CMIHook;
 import com.pepedevs.discordmessenger.listener.EventListener;
 import com.pepedevs.discordmessenger.messagable.Message;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +38,7 @@ public final class DiscordMessenger extends JavaPlugin {
         config.load(configuration);
 
         this.getServer().getPluginManager().registerEvents(new EventListener(), this);
+        this.setupHook();
 
         JedisPoolConfig jedisConfig = new JedisPoolConfig();
         jedisConfig.setMaxTotal(10);
@@ -41,6 +47,18 @@ public final class DiscordMessenger extends JavaPlugin {
 
     public JedisPool getJedisPool() {
         return jedisPool;
+    }
+
+    private void setupHook(){
+        if (Bukkit.getPluginManager().getPlugin("CMI") != null){
+            Bukkit.getPluginManager().registerEvents(new CMIHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("AdvancedBans") != null){
+            Bukkit.getPluginManager().registerEvents(new BansHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("GodsEye") != null){
+            Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
+        }
     }
 
     public static void sendMessage(String channelId, Message message) {
