@@ -100,7 +100,10 @@ public class EventListener implements Listener {
                 .field(new DiscordEmbed.EmbedField("Seller",event.getPlayerAuction().getAuctionPlayer().getName(),true))
                 .field(new DiscordEmbed.EmbedField("Item",event.getItemStack().getType().toString(),true))
                 .field(new DiscordEmbed.EmbedField("Amount",String.valueOf(event.getItemStack().getAmount()),true))
-                .build(); //removethis
+                .field(new DiscordEmbed.EmbedField("Price",String.valueOf(event.getPrice()),true))
+                .footer(new DiscordEmbed.EmbedFooter("Auction ID",String.valueOf(event.getPlayerAuction().getID())))
+                .build();
+        DiscordMessenger.sendMessage("939154546813440000",msg);
 
 
 
