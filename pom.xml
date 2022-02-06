@@ -58,6 +58,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
+            <id>olzie-repo</id>
+            <url>https://repo.olziedev.com/</url>
+        </repository>
+        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
@@ -102,6 +106,12 @@
             <version>2.1.6</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/AdvancedBan-Bundle-2.3.0-RELEASE (1).jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.olziedev</groupId>
+            <artifactId>playerauctions-api</artifactId>
+            <version>1.12.4</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -2,6 +2,8 @@ package com.pepedevs.discordmessenger.listener;
 
 import com.Zrips.CMI.events.CMIPlayerUnVanishEvent;
 import com.Zrips.CMI.events.CMIPlayerVanishEvent;
+import com.olziedev.playerauctions.api.auction.Auction;
+import com.olziedev.playerauctions.api.events.PlayerAuctionBuyEvent;
 import com.pepedevs.discordmessenger.DiscordMessenger;
 import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
 import me.leoko.advancedban.bukkit.event.PunishmentEvent;
@@ -87,6 +89,19 @@ public class EventListener implements Listener {
                 .timestamp(Instant.now())
                 .build();
         DiscordMessenger.sendMessage("939091234872508436",msg);
+    }
+    @EventHandler
+    public void playerAuctionBuy(PlayerAuctionBuyEvent event) {
+        DiscordEmbed msg = DiscordEmbed.builder()
+                .color(Color.decode("#48f542"))
+                .author(new DiscordEmbed.EmbedAuthor(event.getBuyer().getName()+" bought "+ event.getItemStack().getType()+" for "+ event.getPrice(),"https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId()+"/",null))
+                .title(new DiscordEmbed.EmbedTitle("Auction Information:",null))
+                .field(new DiscordEmbed.EmbedField("Buyer",event.getBuyer().getName(),true))
+                .field(new DiscordEmbed.EmbedField("Seller",event.getPlayerAuction().getAuctionPlayer().getName(),true))
+                .field(new DiscordEmbed.EmbedField("Item",event.getItemStack().getType().toString(),true))
+                .field(new DiscordEmbed.EmbedField("Amount",event.getItemStack().getAmount(),true ))
+
+
     }
 
 }
