@@ -28,7 +28,7 @@ public class BansHook implements Listener {
                 .field(new DiscordEmbed.EmbedField("Reason",punish.getReason(),true))
                 .timestamp(Instant.now())
                 .build();
-        DiscordMessenger.sendMessage("939091234872508436",alert);
+        DiscordMessenger.sendMessage("939849504964870184",alert);
 
 
     }
@@ -47,7 +47,7 @@ public class BansHook implements Listener {
                 .field(new DiscordEmbed.EmbedField("Reason",punish.getReason(),true))
                 .timestamp(Instant.now())
                 .build();
-        DiscordMessenger.sendMessage("939091234872508436",msg);
+        DiscordMessenger.sendMessage("939849504964870184",msg);
     }
 
 }

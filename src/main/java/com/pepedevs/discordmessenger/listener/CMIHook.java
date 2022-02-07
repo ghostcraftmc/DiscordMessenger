@@ -18,7 +18,7 @@ public class CMIHook implements Listener {
                 .title(new DiscordEmbed.EmbedTitle("`" + username + "` vanished!" , null))
                 .color(new Color(199, 0, 57 ))
                 .build();
-        DiscordMessenger.sendMessage("878893790415429672",alert);
+        DiscordMessenger.sendMessage("939849504964870184",alert);
 
     }
 
@@ -27,9 +27,9 @@ public class CMIHook implements Listener {
         String username = event.getPlayer().getName();
         DiscordEmbed alert = DiscordEmbed.builder()
                 .title(new DiscordEmbed.EmbedTitle("`" + username + "` became visible" , null))
-                .color(new Color(199, 0, 57 ))
+                .color(new Color(175, 6, 55))
                 .build();
-        DiscordMessenger.sendMessage("878893790415429672",alert);
+        DiscordMessenger.sendMessage("939849504964870184",alert);
 
     }
 

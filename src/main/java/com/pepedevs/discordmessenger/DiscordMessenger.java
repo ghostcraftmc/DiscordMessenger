@@ -2,12 +2,10 @@ package com.pepedevs.discordmessenger;
 
 import com.Zrips.CMI.CMI;
 import com.google.gson.JsonObject;
-import com.pepedevs.discordmessenger.listener.AnticheatHook;
-import com.pepedevs.discordmessenger.listener.BansHook;
-import com.pepedevs.discordmessenger.listener.CMIHook;
-import com.pepedevs.discordmessenger.listener.EventListener;
+import com.pepedevs.discordmessenger.listener.*;
 import com.pepedevs.discordmessenger.messagable.Message;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,6 +49,7 @@ public final class DiscordMessenger extends JavaPlugin {
 
     private void setupHook(){
         if (Bukkit.getPluginManager().getPlugin("CMI") != null){
+            this.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "Hooked into CMI");
             Bukkit.getPluginManager().registerEvents(new CMIHook(),this);
         }
         if (Bukkit.getPluginManager().getPlugin("AdvancedBans") != null){
@@ -58,6 +57,24 @@ public final class DiscordMessenger extends JavaPlugin {
         }
         if (Bukkit.getPluginManager().getPlugin("GodsEye") != null){
             Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("PlayerAuctions") != null){
+            Bukkit.getPluginManager().registerEvents(new AuctionHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("BanItem") != null){
+            Bukkit.getPluginManager().registerEvents(new ItemBanHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("Excellentcrates") != null){
+            Bukkit.getPluginManager().registerEvents(new CratesHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("Luckperms") != null){
+            Bukkit.getPluginManager().registerEvents(new LuckpermsHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("Votingplugin") != null){
+            Bukkit.getPluginManager().registerEvents(new VotingHook(),this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("PvPManager") != null){
+            Bukkit.getPluginManager().registerEvents(new CombatlogIntegration(),this);
         }
     }
 
