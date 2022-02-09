@@ -17,7 +17,7 @@ public class EventListener implements Listener {
         String username = event.getPlayer().getName();
         GameMode changed = event.getNewGameMode();
         DiscordEmbed alert1 = DiscordEmbed.builder()
-                .author(new DiscordEmbed.EmbedAuthor("Gamemode change triggered", "https://cdn.discordapp.com/attachments/836464907984568330/940618393059471381/pngwing.com.png",null))
+                .author(new DiscordEmbed.EmbedAuthor("GAMEMODE CHANGE TRIGGERED", "https://cdn.discordapp.com/attachments/836464907984568330/940618393059471381/pngwing.com.png",null))
                 .thumbnailUrl("https://mc-heads.net/avatar/" + username + "/256.png")
                 .title(new DiscordEmbed.EmbedTitle("Survival S9",null))
                 .description("`" + username + "` changed gamemode to `" + changed + "`")
