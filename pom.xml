@@ -70,6 +70,14 @@
             <id>pepedevs-snapshot</id>
             <url>https://repo.pepedevs.com/nexus/repository/maven-snapshots/</url>
         </repository>
+        <repository>
+            <id>BenCodez Repo</id>
+            <url>https://nexus.bencodez.com/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>andross-repo</id>
+            <url>https://repo.andross.fr/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -120,6 +128,18 @@
             <version>Build 50</version>
             <systemPath>${project.basedir}/libs/GodsEye.jar</systemPath>
             <scope>system</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bencodez</groupId>
+            <artifactId>votingplugin</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>fr.andross.banitem</groupId>
+            <artifactId>BanItemPlugin</artifactId>
+            <version>3.3.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

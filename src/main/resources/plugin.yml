@@ -7,3 +7,5 @@ softdepend:
   - AdvancedBan
   - GodsEye
   - PlayerAuctions
+  - VotingPlugin
+  - BanItem

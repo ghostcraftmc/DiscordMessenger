@@ -72,7 +72,13 @@ public final class DiscordMessenger extends JavaPlugin {
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to Hook into Auctions");
         }
         if (Bukkit.getPluginManager().getPlugin("BanItem") != null){
-            Bukkit.getPluginManager().registerEvents(new ItemBanHook(),this);
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " Found BanItem");
+            if (Bukkit.getPluginManager().isPluginEnabled("BanItem")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into BanItem");
+                Bukkit.getPluginManager().registerEvents(new BansHook(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to Hook into BanItem");
         }
         if (Bukkit.getPluginManager().getPlugin("Excellentcrates") != null){
             Bukkit.getPluginManager().registerEvents(new CratesHook(),this);
@@ -80,8 +86,14 @@ public final class DiscordMessenger extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("Luckperms") != null){
             Bukkit.getPluginManager().registerEvents(new LuckpermsHook(),this);
         }
-        if (Bukkit.getPluginManager().getPlugin("Votingplugin") != null){
-            Bukkit.getPluginManager().registerEvents(new VotingHook(),this);
+        if (Bukkit.getPluginManager().getPlugin("VotingPlugin") != null){
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + " Voting Plugin detected.");
+            if (Bukkit.getPluginManager().isPluginEnabled("VotingPlugin")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooked into Voting plugin");
+                Bukkit.getPluginManager().registerEvents(new VotingHook(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into Voting Plugin");
         }
         if (Bukkit.getPluginManager().getPlugin("PvPManager") != null){
             Bukkit.getPluginManager().registerEvents(new CombatlogIntegration(),this);
