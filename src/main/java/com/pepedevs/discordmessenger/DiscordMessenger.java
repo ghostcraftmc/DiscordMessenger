@@ -19,6 +19,7 @@ public final class DiscordMessenger extends JavaPlugin {
 
     private static DiscordMessenger instance;
     public static final String CHANNEL = "discord-logger";
+    public static final String PREFIX = ChatColor.AQUA + "[Alerts]";
 
     private JedisPool jedisPool;
 
@@ -49,7 +50,8 @@ public final class DiscordMessenger extends JavaPlugin {
 
     private void setupHook(){
         if (Bukkit.getPluginManager().getPlugin("CMI") != null){
-            this.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "Hooked into CMI");
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " CMI detected.");
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into CMI");
             Bukkit.getPluginManager().registerEvents(new CMIHook(),this);
         }
         if (Bukkit.getPluginManager().getPlugin("AdvancedBans") != null){
