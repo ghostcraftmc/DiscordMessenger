@@ -54,14 +54,22 @@ public final class DiscordMessenger extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into CMI");
             Bukkit.getPluginManager().registerEvents(new CMIHook(),this);
         }
-        if (Bukkit.getPluginManager().getPlugin("AdvancedBans") != null){
+        if (Bukkit.getPluginManager().getPlugin("AdvancedBan") != null){
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " AdvancedBans detected.");
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into AdvanceBans");
             Bukkit.getPluginManager().registerEvents(new BansHook(),this);
         }
         if (Bukkit.getPluginManager().getPlugin("GodsEye") != null){
             Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
         }
         if (Bukkit.getPluginManager().getPlugin("PlayerAuctions") != null){
-            Bukkit.getPluginManager().registerEvents(new AuctionHook(),this);
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Auctions detected.");
+            if (Bukkit.getPluginManager().isPluginEnabled("PlayerAuctions")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into PAuctions");
+                Bukkit.getPluginManager().registerEvents(new AuctionHook(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to Hook into Auctions");
         }
         if (Bukkit.getPluginManager().getPlugin("BanItem") != null){
             Bukkit.getPluginManager().registerEvents(new ItemBanHook(),this);

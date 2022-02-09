@@ -4,6 +4,6 @@ main: com.pepedevs.discordmessenger.DiscordMessenger
 api-version: 1.13
 softdepend:
   - CMI
-  - AdvancedBans
+  - AdvancedBan
   - GodsEye
   - PlayerAuctions
