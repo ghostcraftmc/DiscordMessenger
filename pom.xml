@@ -71,12 +71,16 @@
             <url>https://repo.pepedevs.com/nexus/repository/maven-snapshots/</url>
         </repository>
         <repository>
-            <id>BenCodez Repo</id>
-            <url>https://nexus.bencodez.com/repository/maven-public/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>andross-repo</id>
             <url>https://repo.andross.fr/</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
 
@@ -130,8 +134,8 @@
             <scope>system</scope>
         </dependency>
         <dependency>
-            <groupId>com.bencodez</groupId>
-            <artifactId>votingplugin</artifactId>
+            <groupId>com.github.BenCodez</groupId>
+            <artifactId>VotingPlugin</artifactId>
             <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
@@ -139,6 +143,12 @@
             <groupId>fr.andross.banitem</groupId>
             <artifactId>BanItemPlugin</artifactId>
             <version>3.3.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

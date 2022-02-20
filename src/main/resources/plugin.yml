@@ -9,3 +9,4 @@ softdepend:
   - PlayerAuctions
   - VotingPlugin
   - BanItem
+  - PlaceholderAPI

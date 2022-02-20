@@ -75,7 +75,7 @@ public final class DiscordMessenger extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " Found BanItem");
             if (Bukkit.getPluginManager().isPluginEnabled("BanItem")){
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into BanItem");
-                Bukkit.getPluginManager().registerEvents(new BansHook(),this);
+                Bukkit.getPluginManager().registerEvents(new ItemBanHook(),this);
             }
             else
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to Hook into BanItem");
