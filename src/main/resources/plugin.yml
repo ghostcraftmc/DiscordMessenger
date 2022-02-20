@@ -10,3 +10,4 @@ softdepend:
   - VotingPlugin
   - BanItem
   - PlaceholderAPI
+  - PvPManager

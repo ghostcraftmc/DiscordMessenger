@@ -96,7 +96,13 @@ public final class DiscordMessenger extends JavaPlugin {
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into Voting Plugin");
         }
         if (Bukkit.getPluginManager().getPlugin("PvPManager") != null){
-            Bukkit.getPluginManager().registerEvents(new CombatlogIntegration(),this);
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " PvPManager Detected");
+            if (Bukkit.getPluginManager().isPluginEnabled("PvPManager")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GOLD + " Hooked into PvP Manager");
+                Bukkit.getPluginManager().registerEvents(new CombatlogIntegration(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into PvPManager");
         }
     }
 
