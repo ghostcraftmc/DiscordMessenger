@@ -1,23 +1,19 @@
 package com.pepedevs.discordmessenger.listener;
+
 import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.events.CMIPlayerTeleportEvent;
 import com.Zrips.CMI.events.CMIPlayerUnVanishEvent;
 import com.Zrips.CMI.events.CMIPlayerVanishEvent;
 import com.pepedevs.discordmessenger.DiscordMessenger;
 import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.util.BoundingBox;
 
 import java.awt.*;
 import java.time.Instant;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CMIHook implements Listener {
