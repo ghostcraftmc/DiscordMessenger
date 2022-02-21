@@ -1,6 +1,8 @@
 package com.pepedevs.discordmessenger.listener;
 
+import com.pepedevs.discordmessenger.DiscordMessenger;
 import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import com.pepedevs.discordmessenger.messagable.DiscordMessage;
 import me.NoChance.PvPManager.Events.PlayerCombatLogEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,5 +20,6 @@ public class CombatlogIntegration implements Listener {
                 .field(new DiscordEmbed.EmbedField("World","`"+event.getPlayer().getWorld().getName()+"`",true))
                 .timestamp(Instant.now())
                 .build();
+        DiscordMessenger.sendMessage("939849504964870184",alert);
     }
 }
