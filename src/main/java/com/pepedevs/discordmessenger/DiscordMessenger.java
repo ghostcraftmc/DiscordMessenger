@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import su.nightexpress.excellentcrates.crate.Crate;
 
 import java.io.File;
 
@@ -80,8 +81,14 @@ public final class DiscordMessenger extends JavaPlugin {
             else
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to Hook into BanItem");
         }
-        if (Bukkit.getPluginManager().getPlugin("Excellentcrates") != null){
-            Bukkit.getPluginManager().registerEvents(new CratesHook(),this);
+        if (Bukkit.getPluginManager().getPlugin("ExcellentCrates") != null){
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GOLD + "Detected ExcellentCrates");
+            if (Bukkit.getPluginManager().isPluginEnabled("ExcellentCrates")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Hooked into ExcellentCrates");
+                Bukkit.getPluginManager().registerEvents(new CratesHook(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to hook into ExcellentCrates :(");
         }
         if (Bukkit.getPluginManager().getPlugin("Luckperms") != null){
             Bukkit.getPluginManager().registerEvents(new LuckpermsHook(),this);
