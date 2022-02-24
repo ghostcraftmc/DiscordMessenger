@@ -2,6 +2,8 @@ package org.zibble.discordmessenger.commands;
 
 import org.zibble.discordmessenger.components.readable.ReceivedCommand;
 
+import java.sql.SQLException;
+
 public interface DiscordCommand {
 
     String getCommand();

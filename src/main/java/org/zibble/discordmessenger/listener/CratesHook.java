@@ -1,11 +1,9 @@
 package org.zibble.discordmessenger.listener;
 
-import org.zibble.discordmessenger.DiscordMessenger;
-import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import su.nightexpress.excellentcrates.ExcellentCrates;
-import su.nightexpress.excellentcrates.api.crate.ICrateKey;
+import org.zibble.discordmessenger.DiscordMessenger;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import su.nightexpress.excellentcrates.api.crate.ICrateReward;
 import su.nightexpress.excellentcrates.api.event.CrateOpenEvent;
 

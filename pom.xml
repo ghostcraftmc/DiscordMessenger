@@ -167,5 +167,19 @@
             <systemPath>${project.basedir}/libs/ExcellentCrates-4.0.3.6.jar</systemPath>
             <scope>system</scope>
         </dependency>
+        <dependency>
+            <groupId>su.nexmedia.engine</groupId>
+            <artifactId>NexEngine</artifactId>
+            <version>latest</version>
+            <systemPath>${project.basedir}/libs/NexEngine.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
+        <dependency>
+            <groupId>litebans</groupId>
+            <artifactId>api</artifactId>
+            <version>0.3.5</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>

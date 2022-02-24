@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.zibble.discordmessenger.commands.CommandFramework;
+import org.zibble.discordmessenger.commands.TestCommand;
 import org.zibble.discordmessenger.components.messagable.Message;
 import org.zibble.discordmessenger.listener.*;
 import org.zibble.discordmessenger.redis.RedisListener;
@@ -44,6 +45,8 @@ public final class DiscordMessenger extends JavaPlugin {
 
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.commandFramework = new CommandFramework();
+
+        this.registerCommand();
 
         this.getServer().getPluginManager().registerEvents(new EventListener(), this);
         this.setupHook();
@@ -140,6 +143,11 @@ public final class DiscordMessenger extends JavaPlugin {
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into PvPManager");
         }
     }
+
+    private void registerCommand(){
+        this.commandFramework.registerCommand(new TestCommand());
+    }
+
 
     public static void sendMessage(String channelId, Message message) {
         instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
