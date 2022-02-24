@@ -4,6 +4,7 @@ import com.Zrips.CMI.CMI;
 import com.google.gson.JsonObject;
 import com.pepedevs.discordmessenger.listener.*;
 import com.pepedevs.discordmessenger.messagable.Message;
+import fr.andross.banitem.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -61,7 +62,13 @@ public final class DiscordMessenger extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new BansHook(),this);
         }
         if (Bukkit.getPluginManager().getPlugin("GodsEye") != null){
-            Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.AQUA + "GodsEye detected");
+            if (Bukkit.getPluginManager().isPluginEnabled("GodsEye")){
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + "Hooking into GodsEye");
+                Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX+ ChatColor.RED + "Failed to hook into GodsEye");
         }
         if (Bukkit.getPluginManager().getPlugin("PlayerAuctions") != null){
             this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Auctions detected.");
