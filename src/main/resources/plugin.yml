@@ -1,6 +1,6 @@
 name: DiscordMessenger
 version: '${project.version}'
-main: com.pepedevs.discordmessenger.DiscordMessenger
+main: org.zibble.discordmessenger.DiscordMessenger
 api-version: 1.13
 softdepend:
   - CMI
