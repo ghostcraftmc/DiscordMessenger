@@ -1,8 +1,10 @@
 package org.zibble.discordmessenger.components;
 
 import com.google.gson.JsonObject;
+import org.zibble.discordmessenger.util.PermissionUtil;
 
 import java.awt.*;
+import java.util.EnumSet;
 
 public class Role implements JsonSerializable {
 
@@ -47,6 +49,20 @@ public class Role implements JsonSerializable {
 
     public int getRawPosition() {
         return rawPosition;
+    }
+
+    public EnumSet<Permission> getPermissions() {
+        return Permission.getPermissions(rawPermissions);
+    }
+
+    public boolean hasPermission(Permission... permissions) {
+        long effectivePerms = rawPermissions | Permission.PUBLIC_PERMISSION_RAW;
+        for (Permission perm : permissions) {
+            final long rawValue = perm.getRawValue();
+            if ((effectivePerms & rawValue) != rawValue)
+                return false;
+        }
+        return true;
     }
 
     @Override

@@ -3,8 +3,10 @@ package org.zibble.discordmessenger.components;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.zibble.discordmessenger.util.PermissionUtil;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class User implements JsonSerializable {
@@ -13,7 +15,8 @@ public class User implements JsonSerializable {
     private String discriminator;
     private String name;
     private String avatarId;
-    private boolean bot;
+    private boolean bot, owner;
+    private long effectivePermission;
     private List<Role> roles;
 
     public static User fromJson(JsonObject json) {
@@ -27,16 +30,20 @@ public class User implements JsonSerializable {
                 json.get("name").getAsString(),
                 json.get("avatarId").getAsString(),
                 json.get("bot").getAsBoolean(),
-                roles);
+                json.get("owner").getAsBoolean(),
+                roles,
+                json.get("effectivePermission").getAsLong());
     }
 
-    public User(long id, String discriminator, String name, String avatarId, boolean bot, List<Role> roles) {
+    public User(long id, String discriminator, String name, String avatarId, boolean bot, boolean owner, List<Role> roles, long effectivePermission) {
         this.id = id;
         this.discriminator = discriminator;
         this.name = name;
         this.avatarId = avatarId;
         this.bot = bot;
+        this.owner = owner;
         this.roles = roles;
+        this.effectivePermission = effectivePermission;
     }
 
     public long getId() {
@@ -55,8 +62,28 @@ public class User implements JsonSerializable {
         return avatarId;
     }
 
+    public boolean isBot() {
+        return bot;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
     public List<Role> getRoles() {
         return roles;
+    }
+
+    public long getEffectivePermission() {
+        return effectivePermission;
+    }
+
+    public EnumSet<Permission> getPermissions() {
+        return Permission.getPermissions(effectivePermission);
+    }
+
+    public boolean hasPermission(Permission... permissions) {
+        return PermissionUtil.checkPermission(this, permissions);
     }
 
     @Override
@@ -67,6 +94,8 @@ public class User implements JsonSerializable {
         json.addProperty("name", name);
         json.addProperty("avatarId", avatarId);
         json.addProperty("bot", bot);
+        json.addProperty("owner", owner);
+        json.addProperty("effectivePermission", effectivePermission);
         JsonArray roles = new JsonArray();
         for (Role role : this.roles) {
             roles.add(role.toJson());
