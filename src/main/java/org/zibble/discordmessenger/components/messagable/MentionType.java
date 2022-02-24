@@ -1,7 +1,8 @@
-package com.pepedevs.discordmessenger.messagable;
+package org.zibble.discordmessenger.components.messagable;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.zibble.discordmessenger.components.JsonSerializable;
 
 public enum MentionType implements JsonSerializable {
 

@@ -1,7 +1,9 @@
-package com.pepedevs.discordmessenger.messagable;
+package org.zibble.discordmessenger.components.messagable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.zibble.discordmessenger.components.BuildableComponent;
+import org.zibble.discordmessenger.components.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

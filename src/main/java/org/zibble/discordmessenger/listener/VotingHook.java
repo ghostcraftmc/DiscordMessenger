@@ -1,8 +1,8 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
 import com.bencodez.votingplugin.events.PlayerVoteEvent;
-import com.pepedevs.discordmessenger.DiscordMessenger;
-import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import org.zibble.discordmessenger.DiscordMessenger;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

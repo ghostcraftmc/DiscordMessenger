@@ -1,4 +1,4 @@
-package com.pepedevs.discordmessenger;
+package org.zibble.discordmessenger;
 
 import com.pepedevs.radium.utils.configuration.Loadable;
 import com.pepedevs.radium.utils.configuration.annotations.LoadableEntry;

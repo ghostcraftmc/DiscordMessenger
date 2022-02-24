@@ -1,11 +1,11 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.events.CMIPlayerTeleportEvent;
 import com.Zrips.CMI.events.CMIPlayerUnVanishEvent;
 import com.Zrips.CMI.events.CMIPlayerVanishEvent;
-import com.pepedevs.discordmessenger.DiscordMessenger;
-import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import org.zibble.discordmessenger.DiscordMessenger;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

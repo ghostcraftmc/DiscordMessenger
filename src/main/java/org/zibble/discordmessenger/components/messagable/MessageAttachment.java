@@ -1,6 +1,7 @@
-package com.pepedevs.discordmessenger.messagable;
+package org.zibble.discordmessenger.components.messagable;
 
 import com.google.gson.JsonObject;
+import org.zibble.discordmessenger.components.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

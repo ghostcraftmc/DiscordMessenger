@@ -1,7 +1,7 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
-import com.pepedevs.discordmessenger.DiscordMessenger;
-import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import org.zibble.discordmessenger.DiscordMessenger;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import me.leoko.advancedban.bukkit.event.PunishmentEvent;
 import me.leoko.advancedban.bukkit.event.RevokePunishmentEvent;
 import me.leoko.advancedban.utils.Punishment;

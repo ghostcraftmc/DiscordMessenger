@@ -1,6 +1,6 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
-import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import godseye.GodsEyeAlertEvent;
 import godseye.GodsEyePunishPlayerEvent;
 import org.bukkit.event.EventHandler;

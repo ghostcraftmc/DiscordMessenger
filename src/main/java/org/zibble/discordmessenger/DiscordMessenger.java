@@ -1,21 +1,23 @@
-package com.pepedevs.discordmessenger;
+package org.zibble.discordmessenger;
 
-import com.Zrips.CMI.CMI;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pepedevs.discordmessenger.listener.*;
-import com.pepedevs.discordmessenger.messagable.Message;
-import fr.andross.banitem.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.zibble.discordmessenger.commands.CommandFramework;
+import org.zibble.discordmessenger.components.messagable.Message;
+import org.zibble.discordmessenger.listener.*;
+import org.zibble.discordmessenger.redis.RedisListener;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import su.nightexpress.excellentcrates.crate.Crate;
 
 import java.io.File;
+import java.util.concurrent.Executors;
 
 public final class DiscordMessenger extends JavaPlugin {
 
@@ -24,6 +26,8 @@ public final class DiscordMessenger extends JavaPlugin {
     public static final String PREFIX = ChatColor.AQUA + "[Alerts]";
 
     private JedisPool jedisPool;
+    private Gson gson;
+    private CommandFramework commandFramework;
 
     @Override
     public void onEnable() {
@@ -38,16 +42,33 @@ public final class DiscordMessenger extends JavaPlugin {
         Config config = new Config();
         config.load(configuration);
 
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.commandFramework = new CommandFramework();
+
         this.getServer().getPluginManager().registerEvents(new EventListener(), this);
         this.setupHook();
 
         JedisPoolConfig jedisConfig = new JedisPoolConfig();
         jedisConfig.setMaxTotal(10);
         this.jedisPool = new JedisPool(jedisConfig, config.getHost(), config.getPort(), 0, config.getPassword(), false);
+
+        Executors.newSingleThreadExecutor().submit(() -> {
+            try (Jedis jedis = jedisPool.getResource()) {
+                jedis.subscribe(new RedisListener(), CHANNEL);
+            }
+        });
     }
 
     public JedisPool getJedisPool() {
         return jedisPool;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public CommandFramework getCommandFramework() {
+        return commandFramework;
     }
 
     private void setupHook(){

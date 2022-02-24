@@ -1,4 +1,4 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
 import org.bukkit.event.Listener;
 

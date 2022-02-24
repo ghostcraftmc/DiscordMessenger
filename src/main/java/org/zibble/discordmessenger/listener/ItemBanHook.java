@@ -1,7 +1,7 @@
-package com.pepedevs.discordmessenger.listener;
+package org.zibble.discordmessenger.listener;
 
-import com.pepedevs.discordmessenger.DiscordMessenger;
-import com.pepedevs.discordmessenger.messagable.DiscordEmbed;
+import org.zibble.discordmessenger.DiscordMessenger;
+import org.zibble.discordmessenger.components.messagable.DiscordEmbed;
 import fr.andross.banitem.events.DeleteBannedItemEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.event.EventHandler;

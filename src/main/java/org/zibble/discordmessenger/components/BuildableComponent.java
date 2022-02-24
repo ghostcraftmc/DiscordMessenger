@@ -1,4 +1,4 @@
-package com.pepedevs.discordmessenger.messagable;
+package org.zibble.discordmessenger.components;
 
 public interface BuildableComponent<T extends BuildableComponent.Builder> {
 
