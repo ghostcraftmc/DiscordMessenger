@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.zibble.discordmessenger.commands.CommandFramework;
 import org.zibble.discordmessenger.commands.AltsCmd;
+import org.zibble.discordmessenger.commands.IpAltsQuery;
 import org.zibble.discordmessenger.components.messagable.Message;
 import org.zibble.discordmessenger.listener.*;
 import org.zibble.discordmessenger.redis.RedisListener;
@@ -146,6 +147,7 @@ public final class DiscordMessenger extends JavaPlugin {
 
     private void registerCommand(){
         this.commandFramework.registerCommand(new AltsCmd());
+        this.commandFramework.registerCommand(new IpAltsQuery());
     }
 
 
