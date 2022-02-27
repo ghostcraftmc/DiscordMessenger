@@ -3,6 +3,7 @@ package org.zibble.discordmessenger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -123,7 +124,13 @@ public final class DiscordMessenger extends JavaPlugin {
                 this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to hook into ExcellentCrates :(");
         }
         if (Bukkit.getPluginManager().getPlugin("Luckperms") != null){
-            Bukkit.getPluginManager().registerEvents(new LuckpermsHook(),this);
+            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + "Luckperms Detected");
+            if (Bukkit.getPluginManager().isPluginEnabled("Luckperms")) {
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Successfully hooked onto Luckperms!");
+                new LuckpermsHook(this, LuckPermsProvider.get());
+            }
+            else
+                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to hook into Luckperms");
         }
         if (Bukkit.getPluginManager().getPlugin("VotingPlugin") != null){
             this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + " Voting Plugin detected.");

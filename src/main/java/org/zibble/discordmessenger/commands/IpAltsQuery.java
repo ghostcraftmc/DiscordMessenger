@@ -69,3 +69,4 @@ public class IpAltsQuery implements DiscordCommand{
         }
     }
 }
+
