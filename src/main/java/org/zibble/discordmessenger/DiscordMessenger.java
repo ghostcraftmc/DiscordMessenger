@@ -5,15 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
-import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.zibble.discordmessenger.commands.AltsCmd;
 import org.zibble.discordmessenger.commands.CommandFramework;
-import org.zibble.discordmessenger.commands.IpAltsQuery;
 import org.zibble.discordmessenger.components.messagable.Message;
 import org.zibble.discordmessenger.listener.*;
 import org.zibble.discordmessenger.redis.RedisListener;
@@ -70,84 +67,10 @@ public final class DiscordMessenger extends JavaPlugin {
     }
 
     private void setupHook(){
-        if (Bukkit.getPluginManager().getPlugin("CMI") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " CMI detected.");
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into CMI");
-            Bukkit.getPluginManager().registerEvents(new CMIHook(),this);
-        }
-        if (Bukkit.getPluginManager().getPlugin("AdvancedBan") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " AdvancedBans detected.");
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into AdvanceBans");
-            Bukkit.getPluginManager().registerEvents(new BansHook(),this);
-        }
-        if (Bukkit.getPluginManager().getPlugin("GodsEye") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.AQUA + "GodsEye detected");
-            if (Bukkit.getPluginManager().isPluginEnabled("GodsEye")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + "Hooking into GodsEye");
-                Bukkit.getPluginManager().registerEvents(new AnticheatHook(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX+ ChatColor.RED + "Failed to hook into GodsEye");
-        }
-        if (Bukkit.getPluginManager().getPlugin("PlayerAuctions") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Auctions detected.");
-            if (Bukkit.getPluginManager().isPluginEnabled("PlayerAuctions")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into PAuctions");
-                Bukkit.getPluginManager().registerEvents(new AuctionHook(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to Hook into Auctions");
-        }
-        if (Bukkit.getPluginManager().getPlugin("BanItem") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " Found BanItem");
-            if (Bukkit.getPluginManager().isPluginEnabled("BanItem")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooking into BanItem");
-                Bukkit.getPluginManager().registerEvents(new ItemBanHook(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to Hook into BanItem");
-        }
-        if (Bukkit.getPluginManager().getPlugin("ExcellentCrates") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GOLD + "Detected ExcellentCrates");
-            if (Bukkit.getPluginManager().isPluginEnabled("ExcellentCrates")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Hooked into ExcellentCrates");
-                Bukkit.getPluginManager().registerEvents(new CratesHook(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to hook into ExcellentCrates :(");
-        }
-        if (Bukkit.getPluginManager().getPlugin("Luckperms") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + "Luckperms Detected");
-            if (Bukkit.getPluginManager().isPluginEnabled("Luckperms")) {
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.LIGHT_PURPLE + "Successfully hooked onto Luckperms!");
-                new LuckpermsHook(this, LuckPermsProvider.get());
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Failed to hook into Luckperms");
-        }
-        if (Bukkit.getPluginManager().getPlugin("VotingPlugin") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + " Voting Plugin detected.");
-            if (Bukkit.getPluginManager().isPluginEnabled("VotingPlugin")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.WHITE + " Hooked into Voting plugin");
-                Bukkit.getPluginManager().registerEvents(new VotingHook(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into Voting Plugin");
-        }
-        if (Bukkit.getPluginManager().getPlugin("PvPManager") != null){
-            this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.YELLOW + " PvPManager Detected");
-            if (Bukkit.getPluginManager().isPluginEnabled("PvPManager")){
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.GOLD + " Hooked into PvP Manager");
-                Bukkit.getPluginManager().registerEvents(new CombatlogIntegration(),this);
-            }
-            else
-                this.getServer().getConsoleSender().sendMessage(PREFIX + ChatColor.RED + " Failed to hook into PvPManager");
-        }
+
     }
 
     private void registerCommand(){
-        this.commandFramework.registerCommand(new AltsCmd());
-        this.commandFramework.registerCommand(new IpAltsQuery());
     }
 
 

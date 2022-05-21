@@ -2,15 +2,4 @@ name: DiscordMessenger
 version: '${project.version}'
 main: org.zibble.discordmessenger.DiscordMessenger
 api-version: 1.13
-softdepend:
-  - CMI
-  - AdvancedBan
-  - GodsEye
-  - PlayerAuctions
-  - VotingPlugin
-  - BanItem
-  - PlaceholderAPI
-  - PvPManager
-  - ExcellentCrates
-  - LiteBans
-  - Luckperms
+softdepend: []
