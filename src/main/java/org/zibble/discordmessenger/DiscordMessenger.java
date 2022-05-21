@@ -3,24 +3,22 @@ package org.zibble.discordmessenger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.zibble.discordmessenger.commands.CommandFramework;
 import org.zibble.discordmessenger.commands.AltsCmd;
+import org.zibble.discordmessenger.commands.CommandFramework;
 import org.zibble.discordmessenger.commands.IpAltsQuery;
 import org.zibble.discordmessenger.components.messagable.Message;
 import org.zibble.discordmessenger.listener.*;
 import org.zibble.discordmessenger.redis.RedisListener;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.File;
-import java.util.concurrent.Executors;
 
 public final class DiscordMessenger extends JavaPlugin {
 
@@ -28,7 +26,7 @@ public final class DiscordMessenger extends JavaPlugin {
     public static final String CHANNEL = "discord-logger";
     public static final String PREFIX = ChatColor.AQUA + "[Alerts]";
 
-    private JedisPool jedisPool;
+    private RedisClient redisClient;
     private Gson gson;
     private CommandFramework commandFramework;
 
@@ -53,19 +51,14 @@ public final class DiscordMessenger extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new EventListener(), this);
         this.setupHook();
 
-        JedisPoolConfig jedisConfig = new JedisPoolConfig();
-        jedisConfig.setMaxTotal(10);
-        this.jedisPool = new JedisPool(jedisConfig, config.getHost(), config.getPort(), 0, config.getPassword(), false);
-
-        Executors.newSingleThreadExecutor().submit(() -> {
-            try (Jedis jedis = jedisPool.getResource()) {
-                jedis.subscribe(new RedisListener(), CHANNEL);
-            }
-        });
+        this.redisClient = RedisClient.create("redis://" + config.getPassword() + "@" + config.getHost() + ":" + config.getPort());
+        StatefulRedisPubSubConnection<String, String> pubsub = this.redisClient.connectPubSub();
+        pubsub.addListener(new RedisListener());
+        pubsub.async().subscribe(CHANNEL);
     }
 
-    public JedisPool getJedisPool() {
-        return jedisPool;
+    public RedisClient getRedisClient() {
+        return redisClient;
     }
 
     public Gson getGson() {
@@ -159,16 +152,12 @@ public final class DiscordMessenger extends JavaPlugin {
 
 
     public static void sendMessage(String channelId, Message message) {
-        instance.getServer().getScheduler().runTaskAsynchronously(instance, () -> {
-            try (Jedis jedis = instance.getJedisPool().getResource()) {
-                JsonObject json = new JsonObject();
-                json.addProperty("channel", channelId);
-                json.add("object", message.toJson());
-                JsonObject obj = new JsonObject();
-                obj.add(message.getType(), json);
-                jedis.publish(CHANNEL, obj.toString());
-            }
-        });
+        JsonObject json = new JsonObject();
+        json.addProperty("channel", channelId);
+        json.add("object", message.toJson());
+        JsonObject obj = new JsonObject();
+        obj.add(message.getType(), json);
+        instance.redisClient.connect().async().publish(CHANNEL, obj.toString());
     }
 
     public static DiscordMessenger getInstance() {

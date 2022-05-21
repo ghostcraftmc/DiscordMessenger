@@ -1,19 +1,19 @@
 package org.zibble.discordmessenger.redis;
 
 import com.google.gson.JsonObject;
+import io.lettuce.core.pubsub.RedisPubSubAdapter;
 import org.zibble.discordmessenger.DiscordMessenger;
 import org.zibble.discordmessenger.commands.CommandFramework;
 import org.zibble.discordmessenger.components.Permission;
 import org.zibble.discordmessenger.components.readable.ReceivedCommand;
-import redis.clients.jedis.JedisPubSub;
 
-public class RedisListener extends JedisPubSub {
+public class RedisListener extends RedisPubSubAdapter<String, String> {
 
     public static final String COMMAND = "command";
     public static final String PUBLIC_PERMISSION = "public-permission";
 
     @Override
-    public void onMessage(String channel, String message) {
+    public void message(String channel, String message) {
         if (!channel.equals(DiscordMessenger.CHANNEL)) return;
 
         JsonObject json = DiscordMessenger.getInstance().getGson().fromJson(message, JsonObject.class);
