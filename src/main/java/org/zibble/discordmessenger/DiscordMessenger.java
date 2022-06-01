@@ -5,14 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.zibble.discordmessenger.commands.CommandFramework;
 import org.zibble.discordmessenger.components.messagable.Message;
-import org.zibble.discordmessenger.listener.*;
+import org.zibble.discordmessenger.listener.EventListener;
 import org.zibble.discordmessenger.redis.RedisListener;
 
 import java.io.File;

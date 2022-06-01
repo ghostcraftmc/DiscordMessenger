@@ -4,9 +4,11 @@ import org.zibble.discordmessenger.components.readable.ReceivedCommand;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandFramework {
 
@@ -32,7 +34,22 @@ public class CommandFramework {
                 if (command.getContent().startsWith(c.getCommand())
                         || Arrays.stream(c.getAliases()).anyMatch(s -> command.getContent().startsWith(s))) {
                     try {
-                        c.execute(command);
+                        Command cmd = c;
+                        String[] args = command.getContent().trim().split(" ");
+                        if (args.length > 1 && cmd.getSubCommands() != null && c.getSubCommands().length > 0) {
+                            AtomicInteger i = new AtomicInteger(1);
+                            while (true) {
+                                Optional<SubCommand> first = Arrays.stream(cmd.getSubCommands()).filter(s -> s.name().equalsIgnoreCase(args[i.get()])).findFirst();
+                                if (first.isPresent()) {
+                                    cmd = first.get();
+                                    if (i.incrementAndGet() >= args.length)
+                                        break;
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                        cmd.execute(command);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
