@@ -1,0 +1,66 @@
+package org.zibble.discordmessenger.commands
+
+import org.zibble.discordmessenger.components.messagable.LegacyCommand
+import org.zibble.discordmessenger.components.messagable.SlashCommand
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
+
+object CommandFramework {
+
+    private val legacyCommands: MutableList<DiscordCommand<LegacyCommand>> = CopyOnWriteArrayList()
+    private val commands: MutableList<DiscordCommand<SlashCommand>> = CopyOnWriteArrayList()
+    private val executor = Executors.newFixedThreadPool(6)
+
+    fun registerLegacyCommand(command: DiscordCommand<LegacyCommand>) {
+        legacyCommands.add(command)
+    }
+
+    fun unregisterLegacyCommand(command: DiscordCommand<LegacyCommand>) {
+        legacyCommands.remove(command)
+    }
+
+    fun registerSlashCommand(command: DiscordCommand<SlashCommand>) {
+        commands.add(command)
+    }
+
+    fun unregisterSlashCommand(command: DiscordCommand<SlashCommand>) {
+        commands.remove(command)
+    }
+
+    fun runCommand(command: org.zibble.discordmessenger.components.messagable.Command) {
+        executor.submit {
+            if (command is LegacyCommand) {
+                legacyCommands.forEach {
+                    if (command.content.startsWith(it.getCommand(), true) || it.getAliases()
+                            .any { alias -> command.content.startsWith(alias, true) }
+                    ) {
+                        var cmd: Command<LegacyCommand> = it
+                        val args: List<String> = command.content.trim().split(" ")
+                        if (args.size > 1 && it.getSubCommands().isNotEmpty()) {
+                            val i = AtomicInteger(1)
+                            while (true) {
+                                val first = cmd.getSubCommands().firstOrNull { s -> s.name().equals(args[i.get()], true) }
+                                if (first != null) {
+                                    cmd = first
+                                    if (i.incrementAndGet() >= args.size) break
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+                        cmd.execute(command)
+                    }
+                }
+            } else {
+                commands.forEach { command as SlashCommand
+                    if (command.name.startsWith(it.getCommand(), true) || it.getAliases()
+                            .any { alias -> command.name.startsWith(alias, true) }
+                    ) {
+                        it.execute(command)
+                    }
+                }
+            }
+        }
+    }
+}

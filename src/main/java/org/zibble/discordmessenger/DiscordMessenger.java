@@ -9,12 +9,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.zibble.discordmessenger.commands.CommandFramework;
-import org.zibble.discordmessenger.components.messagable.Message;
-import org.zibble.discordmessenger.listener.EventListener;
+import org.zibble.discordmessenger.components.action.Action;
+import org.zibble.discordmessenger.components.readable.CommandReply;
+import org.zibble.discordmessenger.components.readable.DiscordMessage;
 import org.zibble.discordmessenger.redis.RedisListener;
+import org.zibble.discordmessenger.util.gson.ByteArrayAdaptor;
+import org.zibble.discordmessenger.util.gson.ColorAdaptor;
+import org.zibble.discordmessenger.util.gson.OffsetDateTimeAdaptor;
 
+import java.awt.*;
 import java.io.File;
+import java.time.OffsetDateTime;
 
 public final class DiscordMessenger extends JavaPlugin {
 
@@ -24,7 +29,6 @@ public final class DiscordMessenger extends JavaPlugin {
 
     private RedisClient redisClient;
     private Gson gson;
-    private CommandFramework commandFramework;
 
     @Override
     public void onEnable() {
@@ -39,12 +43,15 @@ public final class DiscordMessenger extends JavaPlugin {
         Config config = new Config();
         config.load(configuration);
 
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.commandFramework = new CommandFramework();
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeAdaptor())
+                .registerTypeAdapter(Color.class, new ColorAdaptor())
+                .registerTypeAdapter(byte[].class, new ByteArrayAdaptor())
+                .serializeNulls()
+                .create();
 
         this.registerCommand();
 
-        this.getServer().getPluginManager().registerEvents(new EventListener(), this);
         this.setupHook();
 
         this.redisClient = RedisClient.create("redis://" + config.getPassword() + "@" + config.getHost() + ":" + config.getPort());
@@ -61,10 +68,6 @@ public final class DiscordMessenger extends JavaPlugin {
         return gson;
     }
 
-    public CommandFramework getCommandFramework() {
-        return commandFramework;
-    }
-
     private void setupHook(){
 
     }
@@ -72,14 +75,18 @@ public final class DiscordMessenger extends JavaPlugin {
     private void registerCommand(){
     }
 
-
-    public static void sendMessage(String channelId, Message message) {
+    public static void replyCommand(long commandId, DiscordMessage message) {
+        RedisListener.Companion.checkButtons(message);
+        CommandReply reply = new CommandReply(commandId, message);
         JsonObject json = new JsonObject();
-        json.addProperty("channel", channelId);
-        json.add("object", message.toJson());
-        JsonObject obj = new JsonObject();
-        obj.add(message.getType(), json);
-        instance.redisClient.connect().async().publish(CHANNEL, obj.toString());
+        json.add(RedisListener.COMMAND_REPLY, reply.toJson());
+        instance.redisClient.connect().async().publish(CHANNEL, json.toString());
+    }
+
+    public static void sendAction(Action action) {
+        JsonObject json = new JsonObject();
+        json.add(action.getKey(), action.toJson());
+        instance.redisClient.connect().async().publish(CHANNEL, json.toString());
     }
 
     public static DiscordMessenger getInstance() {
