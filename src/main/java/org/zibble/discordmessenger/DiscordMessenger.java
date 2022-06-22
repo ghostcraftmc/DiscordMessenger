@@ -9,12 +9,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.zibble.discordmessenger.components.Component;
 import org.zibble.discordmessenger.components.action.Action;
 import org.zibble.discordmessenger.components.readable.CommandReply;
 import org.zibble.discordmessenger.components.readable.DiscordMessage;
 import org.zibble.discordmessenger.redis.RedisListener;
 import org.zibble.discordmessenger.util.gson.ByteArrayAdaptor;
 import org.zibble.discordmessenger.util.gson.ColorAdaptor;
+import org.zibble.discordmessenger.util.gson.ComponentAdaptor;
 import org.zibble.discordmessenger.util.gson.OffsetDateTimeAdaptor;
 
 import java.awt.*;
@@ -47,6 +49,7 @@ public final class DiscordMessenger extends JavaPlugin {
                 .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeAdaptor())
                 .registerTypeAdapter(Color.class, new ColorAdaptor())
                 .registerTypeAdapter(byte[].class, new ByteArrayAdaptor())
+                .registerTypeAdapter(Component.class, new ComponentAdaptor())
                 .serializeNulls()
                 .create();
 

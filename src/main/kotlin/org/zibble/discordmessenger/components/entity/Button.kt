@@ -13,7 +13,6 @@ class Button(
 ) : Component {
 
     var shouldSendInteraction: Boolean = false
-    private set
 
     companion object {
         const val LABEL_MAX_LENGTH = 80

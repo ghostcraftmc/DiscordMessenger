@@ -12,7 +12,7 @@ class ColorAdaptor : TypeAdapter<Color>() {
     }
 
     override fun read(`in`: JsonReader): Color {
-        return Color(Integer.parseUnsignedInt(`in`.nextString()))
+        return Color(Integer.parseUnsignedInt(`in`.nextString(), 16))
     }
 
 }
