@@ -4,5 +4,6 @@ import org.zibble.discordmessenger.components.JsonSerializable
 
 class CommandReply(
     val commandId: Long,
-    val message: DiscordMessage
+    val message: DiscordMessage,
+    val ephermal: Boolean = false
 ) : JsonSerializable

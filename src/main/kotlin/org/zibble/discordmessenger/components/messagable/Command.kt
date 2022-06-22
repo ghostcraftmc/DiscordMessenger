@@ -21,6 +21,6 @@ interface Command : JsonSerializable {
 
     fun getPublicPermission() : Long
 
-    fun reply(message: DiscordMessage) = DiscordMessenger.replyCommand(getId(), message)
+    fun reply(message: DiscordMessage, ephermal: Boolean = false) = DiscordMessenger.replyCommand(getId(), message, ephermal)
 
 }

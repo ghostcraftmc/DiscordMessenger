@@ -78,9 +78,9 @@ public final class DiscordMessenger extends JavaPlugin {
     private void registerCommand(){
     }
 
-    public static void replyCommand(long commandId, DiscordMessage message) {
+    public static void replyCommand(long commandId, DiscordMessage message, boolean ephermal) {
         RedisListener.Companion.checkButtons(message);
-        CommandReply reply = new CommandReply(commandId, message);
+        CommandReply reply = new CommandReply(commandId, message, ephermal);
         JsonObject json = new JsonObject();
         json.add(RedisListener.COMMAND_REPLY, reply.toJson());
         instance.redisClient.connect().async().publish(CHANNEL, json.toString());
