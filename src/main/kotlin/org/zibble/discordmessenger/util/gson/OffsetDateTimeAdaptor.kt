@@ -17,8 +17,10 @@ class OffsetDateTimeAdaptor : TypeAdapter<OffsetDateTime>() {
     }
 
     override fun read(`in`: JsonReader): OffsetDateTime? {
-        if (`in`.peek() == JsonToken.NULL)
+        if (`in`.peek() == JsonToken.NULL) {
+            `in`.skipValue()
             return null
+        }
         return OffsetDateTime.parse(`in`.nextString())
     }
 

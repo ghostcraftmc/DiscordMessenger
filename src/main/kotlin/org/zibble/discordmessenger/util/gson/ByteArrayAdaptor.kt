@@ -17,8 +17,10 @@ class ByteArrayAdaptor : TypeAdapter<ByteArray>() {
     }
 
     override fun read(`in`: JsonReader): ByteArray? {
-        if (`in`.peek() == JsonToken.NULL)
+        if (`in`.peek() == JsonToken.NULL) {
+            `in`.skipValue()
             return null
+        }
         return Base64.getDecoder().decode(`in`.nextString().toByteArray())
     }
 

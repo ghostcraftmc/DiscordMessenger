@@ -19,7 +19,12 @@ class ComponentAdaptor : TypeAdapter<Component>() {
             out.name("custom_id").value(value.custom_id)
             out.name("url").value(value.url)
             out.name("disabled").value(value.disabled)
-            out.name("emoji").jsonValue(value.emoji?.toJsonString())
+            out.name("emoji")
+            if (value.emoji == null) {
+                out.nullValue()
+            } else {
+                out.jsonValue(value.emoji.toJsonString())
+            }
             out.name("shouldSendInteraction").value(value.shouldSendInteraction)
         } else {
             value as SelectMenu

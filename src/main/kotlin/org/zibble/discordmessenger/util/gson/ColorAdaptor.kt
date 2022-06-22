@@ -18,8 +18,10 @@ class ColorAdaptor : TypeAdapter<Color>() {
     }
 
     override fun read(`in`: JsonReader): Color? {
-        if (`in`.peek() == JsonToken.NULL)
+        if (`in`.peek() == JsonToken.NULL) {
+            `in`.skipValue()
             return null
+        }
         return Color(Integer.parseUnsignedInt(`in`.nextString(), 16))
     }
 
