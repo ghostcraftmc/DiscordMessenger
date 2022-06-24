@@ -4,11 +4,10 @@ import org.zibble.discordmessenger.components.readable.DiscordMessage
 import java.util.concurrent.ThreadLocalRandom
 
 class EditMessageAction(
-    override val id: Long = ThreadLocalRandom.current().nextLong(),
     val channelId: Long,
     val messageId: Long,
     val newMessage: DiscordMessage
-) : Action(id) {
+) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
         fun of(channelId: Long, messageId: Long, newMessage: DiscordMessage) : EditMessageAction = EditMessageAction(

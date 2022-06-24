@@ -4,10 +4,9 @@ import org.zibble.discordmessenger.components.readable.DiscordMessage
 import java.util.concurrent.ThreadLocalRandom
 
 class SendMessageAction(
-    override val id: Long = ThreadLocalRandom.current().nextLong(),
     val channelId: Long,
     val message: DiscordMessage
-) : Action(id) {
+) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
         fun of(channelId: Long, message: DiscordMessage) : SendMessageAction = SendMessageAction(

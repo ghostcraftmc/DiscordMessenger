@@ -4,11 +4,10 @@ import org.zibble.discordmessenger.components.entity.Emote
 import java.util.concurrent.ThreadLocalRandom
 
 class ReactEmoteAction(
-    override val id: Long = ThreadLocalRandom.current().nextLong(),
     val channelId: Long,
     val messageId: Long,
     val emote: Emote
-) : Action(id) {
+) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
         fun of(channelId: Long, messageId: Long, emote: Emote) : ReactEmoteAction = ReactEmoteAction(

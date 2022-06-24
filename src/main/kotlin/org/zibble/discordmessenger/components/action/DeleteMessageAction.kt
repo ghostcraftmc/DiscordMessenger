@@ -3,10 +3,9 @@ package org.zibble.discordmessenger.components.action
 import java.util.concurrent.ThreadLocalRandom
 
 class DeleteMessageAction(
-    override val id: Long = ThreadLocalRandom.current().nextLong(),
     val channelId: Long,
     val messageId: Long
-) : Action(id) {
+) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
         fun of(channelId: Long, messageId: Long) : DeleteMessageAction = DeleteMessageAction(
