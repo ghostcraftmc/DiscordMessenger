@@ -9,10 +9,7 @@ class Button(
     val url: String? = null,
     val disabled: Boolean = false,
     val emoji: Emoji? = null,
-    @Transient val interaction: (User, MessageChannel) -> Unit = { _, _ -> }
 ) : Component {
-
-    var shouldSendInteraction: Boolean = false
 
     companion object {
         const val LABEL_MAX_LENGTH = 80
@@ -138,18 +135,6 @@ class Button(
             disabled = disabled,
             emoji = emoji
         )
-    }
-
-    fun withInteraction(interaction: (User, MessageChannel) -> Unit) : Button {
-        return Button(
-            style = style,
-            label = label,
-            custom_id = custom_id,
-            url = url,
-            disabled = disabled,
-            emoji = emoji,
-            interaction = interaction
-        ).also { it.shouldSendInteraction = true }
     }
 
     override fun isDisabled(): Boolean = disabled

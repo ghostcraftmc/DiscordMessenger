@@ -3,6 +3,7 @@ package org.zibble.discordmessenger.components.entity
 import org.zibble.discordmessenger.components.JsonSerializable
 
 class MessageChannel(
+    val id: Long,
     val topic: String? = null,
     val parentCategoryId: Long,
     val position: Int,

@@ -7,7 +7,7 @@ import org.zibble.discordmessenger.components.entity.User
 import org.zibble.discordmessenger.components.readable.DiscordMessage
 import java.time.OffsetDateTime
 
-interface Command : JsonSerializable {
+interface Command : Replyable, JsonSerializable {
 
     fun getId() : Long
 
@@ -21,6 +21,6 @@ interface Command : JsonSerializable {
 
     fun getPublicPermission() : Long
 
-    fun reply(message: DiscordMessage, ephermal: Boolean = false) = DiscordMessenger.replyCommand(getId(), message, ephermal)
+    override fun reply(message: DiscordMessage, ephermal: Boolean) = DiscordMessenger.replyCommand(getId(), message, ephermal)
 
 }

@@ -23,9 +23,12 @@ class ComponentAdaptor : TypeAdapter<Component>() {
             if (value.emoji == null) {
                 out.nullValue()
             } else {
-                out.jsonValue(value.emoji.toJsonString())
+                out.beginObject()
+                out.name("name").value(value.emoji.name)
+                out.name("id").value(value.emoji.id)
+                out.name("animated").value(value.emoji.animated)
+                out.endObject()
             }
-            out.name("shouldSendInteraction").value(value.shouldSendInteraction)
         } else {
             value as SelectMenu
             out.name("id").value(value.id)
@@ -33,7 +36,27 @@ class ComponentAdaptor : TypeAdapter<Component>() {
             out.name("minValues").value(value.minValues)
             out.name("maxValues").value(value.maxValues)
             out.name("disabled").value(value.disabled)
-            out.name("options").jsonValue(DiscordMessenger.getInstance().gson.toJson(value.options))
+            out.name("options")
+            out.beginArray()
+            for (option in value.options) {
+                out.beginObject()
+                out.name("label").value(option.label)
+                out.name("value").value(option.value)
+                out.name("description").value(option.description)
+                out.name("default").value(option.default)
+                out.name("emoji")
+                if (option.emoji == null) {
+                    out.nullValue()
+                } else {
+                    out.beginObject()
+                    out.name("name").value(option.emoji.name)
+                    out.name("id").value(option.emoji.id)
+                    out.name("animated").value(option.emoji.animated)
+                    out.endObject()
+                }
+                out.endObject()
+            }
+            out.endArray()
         }
         out.endObject()
     }
@@ -50,7 +73,6 @@ class ComponentAdaptor : TypeAdapter<Component>() {
             var url : String? = null
             var disabled = false
             var emoji : Emoji? = null
-            var shouldSendInteraction = false
             while (input.hasNext()) {
                 val name = input.nextName()
                 when (name) {
@@ -60,12 +82,11 @@ class ComponentAdaptor : TypeAdapter<Component>() {
                     "url" -> url = getOrNull(input) { input.nextString() }
                     "disabled" -> disabled = input.nextBoolean()
                     "emoji" -> emoji = DiscordMessenger.getInstance().gson.fromJson(getOrNull(input) { input.nextString() }, Emoji::class.java)
-                    "shouldSendInteraction" -> shouldSendInteraction = input.nextBoolean()
                     else -> input.skipValue()
                 }
             }
 
-            component = Button(style, label, custom_id, url, disabled, emoji).also { it.shouldSendInteraction = shouldSendInteraction }
+            component = Button(style, label, custom_id, url, disabled, emoji)
         } else {
             var id = ""
             var placeholder : String? = null

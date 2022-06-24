@@ -1,4 +1,4 @@
-package org.zibble.discordmessenger.commands
+package org.zibble.discordmessenger.interaction.commands
 
 interface SubCommand<T : org.zibble.discordmessenger.components.messagable.Command> : Command<T> {
 

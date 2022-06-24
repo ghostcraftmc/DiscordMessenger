@@ -11,8 +11,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.zibble.discordmessenger.components.Component;
 import org.zibble.discordmessenger.components.action.Action;
+import org.zibble.discordmessenger.components.action.reply.ActionReply;
+import org.zibble.discordmessenger.components.entity.Button;
+import org.zibble.discordmessenger.components.entity.SelectMenu;
+import org.zibble.discordmessenger.components.readable.ButtonReply;
 import org.zibble.discordmessenger.components.readable.CommandReply;
 import org.zibble.discordmessenger.components.readable.DiscordMessage;
+import org.zibble.discordmessenger.components.readable.SelectMenuReply;
 import org.zibble.discordmessenger.redis.RedisListener;
 import org.zibble.discordmessenger.util.gson.ByteArrayAdaptor;
 import org.zibble.discordmessenger.util.gson.ColorAdaptor;
@@ -22,6 +27,7 @@ import org.zibble.discordmessenger.util.gson.OffsetDateTimeAdaptor;
 import java.awt.*;
 import java.io.File;
 import java.time.OffsetDateTime;
+import java.util.concurrent.CompletableFuture;
 
 public final class DiscordMessenger extends JavaPlugin {
 
@@ -51,6 +57,7 @@ public final class DiscordMessenger extends JavaPlugin {
                 .registerTypeAdapter(byte[].class, new ByteArrayAdaptor())
                 .registerTypeAdapter(Component.class, new ComponentAdaptor())
                 .serializeNulls()
+                .setLenient()
                 .create();
 
         this.registerCommand();
@@ -79,17 +86,33 @@ public final class DiscordMessenger extends JavaPlugin {
     }
 
     public static void replyCommand(long commandId, DiscordMessage message, boolean ephermal) {
-        RedisListener.Companion.checkButtons(message);
         CommandReply reply = new CommandReply(commandId, message, ephermal);
         JsonObject json = new JsonObject();
         json.add(RedisListener.COMMAND_REPLY, reply.toJson());
         instance.redisClient.connect().async().publish(CHANNEL, json.toString());
     }
 
-    public static void sendAction(Action action) {
+    public static void replyButton(Button button, DiscordMessage message, boolean ephermal) {
+        ButtonReply reply = new ButtonReply(button, message, ephermal);
+        JsonObject json = new JsonObject();
+        json.add(RedisListener.BUTTON_REPLY, reply.toJson());
+        instance.redisClient.connect().async().publish(CHANNEL, json.toString());
+    }
+
+    public static void replySelectMenu(SelectMenu menu, DiscordMessage message, boolean ephermal) {
+        SelectMenuReply reply = new SelectMenuReply(menu, message, ephermal);
+        JsonObject json = new JsonObject();
+        json.add(RedisListener.SELECT_MENU_REPLY, reply.toJson());
+        instance.redisClient.connect().async().publish(CHANNEL, json.toString());
+    }
+
+    public static CompletableFuture<ActionReply> sendAction(Action action) {
         JsonObject json = new JsonObject();
         json.add(action.getKey(), action.toJson());
         instance.redisClient.connect().async().publish(CHANNEL, json.toString());
+        CompletableFuture<ActionReply> future = new CompletableFuture<>();
+        RedisListener.Companion.getWaitingReply().put(action.getId(), future);
+        return future;
     }
 
     public static DiscordMessenger getInstance() {

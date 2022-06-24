@@ -1,4 +1,4 @@
-package org.zibble.discordmessenger.commands
+package org.zibble.discordmessenger.interaction.commands
 
 import org.zibble.discordmessenger.components.messagable.LegacyCommand
 import org.zibble.discordmessenger.components.messagable.SlashCommand

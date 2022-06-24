@@ -1,6 +1,7 @@
 package org.zibble.discordmessenger.components.messagable
 
 import org.zibble.discordmessenger.DiscordMessenger
+import org.zibble.discordmessenger.components.JsonSerializable
 import org.zibble.discordmessenger.components.entity.MessageChannel
 import org.zibble.discordmessenger.components.entity.User
 import org.zibble.discordmessenger.components.readable.DiscordMessage
@@ -14,27 +15,16 @@ class SlashCommand(
     private val user: User,
     val subCommandName: String? = null,
     val subCommandGroup: String? = null,
-    val optionMappings: OptionMapping,
+    val optionMappings: List<OptionMapping>,
     private val sentTime: OffsetDateTime,
     private val publicPermission: Long
 ) : Command {
 
     class OptionMapping(
-        private val data: Map<String, Any>
-    ) {
-
-        @Suppress("UNCHECKED_CAST")
-        fun <T> get(key: String, type: Class<T>): T? {
-            return data[key] as? T
-        }
-
-        fun get(key: String): Any? {
-            return data[key]
-        }
-
-        fun has(key: String): Boolean {
-            return data.containsKey(key)
-        }
+        val optionType: OptionType,
+        val name: String,
+        val value: Any
+    ) : JsonSerializable {
 
     }
 
@@ -49,5 +39,14 @@ class SlashCommand(
     override fun getSentTime(): OffsetDateTime = sentTime
 
     override fun getPublicPermission(): Long = publicPermission
+
+    fun getOption(name: String) : OptionMapping? {
+        val filter = optionMappings.filter { it.name == name }
+        return if (filter.isNotEmpty()) {
+            filter[0]
+        } else {
+            null
+        }
+    }
 
 }
