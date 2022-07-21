@@ -32,7 +32,7 @@ import java.util.concurrent.CompletableFuture;
 public final class DiscordMessenger extends JavaPlugin {
 
     private static DiscordMessenger instance;
-    public static final String CHANNEL = "discord-logger";
+    public static final String CHANNEL = "discord-logger-v2";
     public static final String PREFIX = ChatColor.AQUA + "[Alerts]";
 
     private RedisClient redisClient;
