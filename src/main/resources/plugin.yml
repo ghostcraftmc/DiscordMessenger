@@ -1,4 +1,4 @@
-name: DiscordMessenger
+name: DiscordMessenger2
 version: '${project.version}'
 main: org.zibble.discordmessenger.DiscordMessenger
 api-version: 1.13
