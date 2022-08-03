@@ -15,7 +15,7 @@ object SelectMenuFramework {
     fun runAction(interaction: SelectMenuInteraction) {
         executor.submit {
             for (buttonAction in selectMenuActions) {
-                if (buttonAction.getId() == interaction.menu.id) {
+                if (buttonAction.getId().matcher(interaction.menu.id).matches()) {
                     buttonAction.execute(interaction)
                     return@submit
                 }

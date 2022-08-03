@@ -15,7 +15,7 @@ object ButtonFramework {
     fun runAction(interaction: ButtonInteraction) {
         executor.submit {
             for (buttonAction in buttonActions) {
-                if (buttonAction.getId() == interaction.button.custom_id) {
+                if (interaction.button.custom_id != null && buttonAction.getId().matcher(interaction.button.custom_id).matches()) {
                     buttonAction.execute(interaction)
                     return@submit
                 }
