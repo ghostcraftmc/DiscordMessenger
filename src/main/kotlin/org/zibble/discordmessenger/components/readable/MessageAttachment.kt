@@ -10,7 +10,7 @@ class MessageAttachment(
     val data: ByteArray
 ) : JsonSerializable {
 
-    constructor(name: String, stream: InputStream) : this(name, stream.readAllBytes()) {
+    constructor(name: String, stream: InputStream) : this(name, stream.readBytes()) {
         stream.close()
     }
 

@@ -12,8 +12,8 @@
     <name>DiscordMessenger</name>
 
     <properties>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.7.0</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -77,6 +77,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>io.netty</pattern>
+                                    <shadedPattern>org.zibble.discordmessenger.libs.netty</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.lettuce</pattern>
+                                    <shadedPattern>org.zibble.discordmessenger.libs.lettuce</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
                         </configuration>
@@ -98,8 +108,8 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -110,9 +120,9 @@
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -123,12 +133,17 @@
         <dependency>
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
-            <version>6.1.8.RELEASE</version>
+            <version>6.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.pepedevs</groupId>
             <artifactId>configuration-utils</artifactId>
             <version>1.2.0-BETA-1.9-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.79.Final</version>
         </dependency>
     </dependencies>
 </project>
