@@ -7,7 +7,7 @@ import java.time.ZoneId
 import java.time.temporal.TemporalAccessor
 
 
-class DiscordEmbed(
+data class DiscordEmbed(
     val timestamp: OffsetDateTime?,
     val color: Color?,
     val description: String?,
@@ -47,7 +47,7 @@ class DiscordEmbed(
         require(fields.size <= MAX_FIELDS) { "Fields cannot be more than $MAX_FIELDS" }
     }
 
-    class EmbedTitle(val text: String, val url: String?) {
+    data class EmbedTitle(val text: String, val url: String?) {
 
         init {
             require(text.isNotEmpty()) { "Title test cannot be empty!" }
@@ -57,7 +57,7 @@ class DiscordEmbed(
 
     }
 
-    class EmbedFooter(val text: String, val icon: String?) {
+    data class EmbedFooter(val text: String, val icon: String?) {
 
         init {
             require(text.length <= TEXT_MAX_LENGTH) { "Text cannot be longer than $TEXT_MAX_LENGTH characters." }
@@ -66,7 +66,7 @@ class DiscordEmbed(
 
     }
 
-    class EmbedAuthor(val name: String, val iconUrl: String?, val url: String?) {
+    data class EmbedAuthor(val name: String, val iconUrl: String?, val url: String?) {
 
         init {
             require(name.length <= AUTHOR_MAX_LENGTH) { "Name cannot be longer than $AUTHOR_MAX_LENGTH characters." }
@@ -76,7 +76,7 @@ class DiscordEmbed(
 
     }
 
-    class EmbedField(val name: String, val value: String, val isInline: Boolean = false) {
+    data class EmbedField(val name: String, val value: String, val isInline: Boolean = false) {
 
         init {
             require(name.length <= TITLE_MAX_LENGTH) { "Name cannot be longer than $TITLE_MAX_LENGTH characters." }
@@ -162,4 +162,9 @@ class DiscordEmbed(
         fun build(): DiscordEmbed = DiscordEmbed(timestamp, color, description, thumbnailUrl, imageUrl, footer, title, author, fields)
     }
 
+}
+
+@Suppress("FunctionName")
+fun DiscordEmbedBuilder(block: DiscordEmbed.Builder.() -> Unit): DiscordEmbed {
+    return DiscordEmbed.builder().apply(block).build()
 }

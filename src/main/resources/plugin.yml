@@ -2,4 +2,5 @@ name: DiscordMessenger2
 version: '${project.version}'
 main: org.zibble.discordmessenger.DiscordMessenger
 api-version: 1.13
-softdepend: []
+depend:
+  - KotlinLibrary

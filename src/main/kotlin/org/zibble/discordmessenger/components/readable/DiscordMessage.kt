@@ -6,13 +6,12 @@ import org.zibble.discordmessenger.components.messagable.MentionType
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-class DiscordMessage(
-    val content : String?,
-    val embeds : Collection<DiscordEmbed>,
-    var isTTS : Boolean,
-    allowedMentions : Collection<MentionType>,
-    val actionRow : Collection<ActionRow>
+data class DiscordMessage(
+    val content : String? = null,
+    val embeds : Collection<DiscordEmbed> = emptyList(),
+    var isTTS : Boolean = false,
+    val allowedMentions : Collection<MentionType> = setOf(MentionType.EVERYONE),
+    val actionRow : Collection<ActionRow> = emptyList()
 ) : JsonSerializable {
 
     companion object {
@@ -25,32 +24,23 @@ class DiscordMessage(
             val list: MutableList<DiscordEmbed> = ArrayList(1 + embeds.size)
             list.add(first)
             list.addAll(embeds)
-            return DiscordMessage(null, list, false, setOf(MentionType.EVERYONE), emptyList())
+            return DiscordMessage(embeds = list)
         }
 
         fun embeds(embeds: Collection<DiscordEmbed>): DiscordMessage {
             require(embeds.size < MAX_EMBEDS) { "Cannot add more than 10 embeds to a message" }
             require(embeds.isNotEmpty()) { "Cannot build an empty message" }
-            return DiscordMessage(
-                null,
-                embeds,
-                false,
-                setOf(MentionType.EVERYONE),
-                emptyList()
-            )
+            return DiscordMessage(embeds = embeds)
         }
 
-        fun text(text: String) : DiscordMessage = DiscordMessage(text, emptyList(), false, setOf(MentionType.EVERYONE), emptyList())
+        fun text(text: String) : DiscordMessage = DiscordMessage(text)
 
         fun builder() : Builder = Builder()
     }
 
-    val allowedMentions: MutableCollection<MentionType> = ArrayList()
-
     init {
         require((content?.length ?: 0) < MAX_CONTENT_LENGTH) { "Content may not exceed 2000 characters!" }
         require(embeds.size < MAX_EMBEDS) { "Cannot add more than 10 embeds to a message" }
-        this.allowedMentions.addAll(allowedMentions)
     }
 
     class Builder {
@@ -78,7 +68,7 @@ class DiscordMessage(
         fun content(content: String?): Builder {
             require((content?.length ?: 0) < MAX_CONTENT_LENGTH) { "Content may not exceed 2000 characters!" }
             this.content.setLength(0)
-            if (content != null && content.isNotEmpty()) {
+            if (!content.isNullOrEmpty()) {
                 this.content.append(content)
             }
             return this
@@ -128,4 +118,9 @@ class DiscordMessage(
         }
     }
 
+}
+
+@Suppress("FunctionName")
+fun DiscordMessageBuilder(block: DiscordMessage.Builder.() -> Unit) : DiscordMessage {
+    return DiscordMessage.Builder().apply(block).build()
 }

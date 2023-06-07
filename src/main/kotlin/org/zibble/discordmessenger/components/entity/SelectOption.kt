@@ -2,7 +2,7 @@ package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.JsonSerializable
 
-class SelectOption(
+data class SelectOption(
     val label: String,
     val value: String,
     val description: String? = null,

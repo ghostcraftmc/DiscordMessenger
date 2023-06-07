@@ -2,7 +2,7 @@ package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.Component
 
-class Button(
+data class Button(
     val style: ButtonStyle,
     val label: String = "",
     val custom_id: String? = null,

@@ -33,8 +33,7 @@ class ActionRow(
         if (isEmpty()) return false
         if (components.map { it.getType() }.groupingBy { it }.eachCount().size > 1) return false
         val type = components.first().getType()
-        if (components.size > type.maxPerRow) return false
-        return true
+        return components.size <= type.maxPerRow
     }
 
     fun getComponents() : List<Component> = components.toList()

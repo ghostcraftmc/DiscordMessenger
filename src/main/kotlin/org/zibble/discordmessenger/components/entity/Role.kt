@@ -3,7 +3,7 @@ package org.zibble.discordmessenger.components.entity
 import org.zibble.discordmessenger.components.JsonSerializable
 import java.util.*
 
-class Role(
+data class Role(
     val id: Long,
     val name: String,
     val rawPermissions: Long,

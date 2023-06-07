@@ -21,6 +21,6 @@ interface Command : Replyable, JsonSerializable {
 
     fun getPublicPermission() : Long
 
-    override fun reply(message: DiscordMessage, ephermal: Boolean) = DiscordMessenger.replyCommand(getId(), message, ephermal)
+    override suspend fun reply(message: DiscordMessage, ephemeral: Boolean) = DiscordMessenger.replyCommand(getId(), message, ephemeral)
 
 }

@@ -4,7 +4,7 @@ import org.zibble.discordmessenger.components.entity.MessageChannel
 import org.zibble.discordmessenger.components.entity.User
 import java.time.OffsetDateTime
 
-class LegacyCommand(
+data class LegacyCommand(
     private val id: Long,
     val content: String,
     private val channel: MessageChannel,

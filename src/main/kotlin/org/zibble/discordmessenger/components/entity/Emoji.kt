@@ -1,9 +1,9 @@
 package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.JsonSerializable
-import org.zibble.discordmessenger.util.EncodingUtil
+import org.zibble.discordmessenger.util.decodeCodepoint
 
-class Emoji(
+data class Emoji(
     val name: String,
     val id: Long,
     val animated: Boolean
@@ -21,9 +21,7 @@ class Emoji(
                     unicode.trim { it <= ' ' }.split("\\s*[uU]\\+".toRegex()).dropLastWhile { it.isEmpty() }
                         .toTypedArray()
                 for (codepoint in codepoints) emoji.append(
-                    if (codepoint.isEmpty()) "" else EncodingUtil.decodeCodepoint(
-                        "U+$codepoint"
-                    )
+                    if (codepoint.isEmpty()) "" else "U+$codepoint".decodeCodepoint()
                 )
                 unicode = emoji.toString()
             }

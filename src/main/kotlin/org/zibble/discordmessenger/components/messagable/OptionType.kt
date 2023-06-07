@@ -19,10 +19,7 @@ enum class OptionType(
 
     companion object {
         fun fromKey(key: Int): OptionType {
-            for (type in OptionType.values()) {
-                if (type.key == key) return type
-            }
-            return UNKNOWN
+            return OptionType.values().firstOrNull { it.key == key } ?: UNKNOWN
         }
     }
 }

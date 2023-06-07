@@ -1,10 +1,10 @@
 package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.JsonSerializable
-import org.zibble.discordmessenger.util.PermissionUtil
+import org.zibble.discordmessenger.util.checkPermission
 import java.util.*
 
-class User(
+data class User(
     val id: Long,
     val discriminator: String,
     val name: String,
@@ -20,7 +20,7 @@ class User(
     }
 
     fun hasPermission(vararg permissions: Permission): Boolean {
-        return PermissionUtil.checkPermission(this, *permissions)
+        return this.checkPermission(*permissions)
     }
 
 }

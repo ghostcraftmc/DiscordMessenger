@@ -7,12 +7,12 @@ import org.zibble.discordmessenger.components.entity.MessageChannel
 import org.zibble.discordmessenger.components.entity.User
 import org.zibble.discordmessenger.components.readable.DiscordMessage
 
-class ButtonInteraction(
+data class ButtonInteraction(
     val button: Button,
     val user: User,
     val channel: MessageChannel,
     val messageId: Long
 ) : Replyable, JsonSerializable {
-    override fun reply(message: DiscordMessage, ephermal: Boolean) = DiscordMessenger.replyButton(button, message, ephermal)
+    override suspend fun reply(message: DiscordMessage, ephemeral: Boolean) = DiscordMessenger.replyButton(button, message, ephemeral)
 
 }

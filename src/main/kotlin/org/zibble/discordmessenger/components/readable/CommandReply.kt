@@ -2,8 +2,8 @@ package org.zibble.discordmessenger.components.readable
 
 import org.zibble.discordmessenger.components.JsonSerializable
 
-class CommandReply(
+data class CommandReply(
     val commandId: Long,
     val message: DiscordMessage,
-    val ephermal: Boolean = false
+    val ephemeral: Boolean = false
 ) : JsonSerializable

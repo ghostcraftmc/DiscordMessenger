@@ -5,8 +5,8 @@ import org.zibble.discordmessenger.DiscordMessenger
 
 interface JsonSerializable {
 
-    fun toJson() : JsonElement = DiscordMessenger.getInstance().gson.toJsonTree(this)
+    fun toJson() : JsonElement = DiscordMessenger.instance.gson.toJsonTree(this)
 
-    fun toJsonString() : String = DiscordMessenger.getInstance().gson.toJson(this)
+    fun toJsonString() : String = DiscordMessenger.instance.gson.toJson(this)
 
 }

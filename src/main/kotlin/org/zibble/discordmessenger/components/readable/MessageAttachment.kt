@@ -5,7 +5,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 
-class MessageAttachment(
+@Deprecated("This is not ready yet")
+data class MessageAttachment(
     val name: String,
     val data: ByteArray
 ) : JsonSerializable {

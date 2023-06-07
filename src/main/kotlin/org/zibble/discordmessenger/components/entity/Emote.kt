@@ -2,7 +2,7 @@ package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.JsonSerializable
 
-class Emote private constructor(
+data class Emote private constructor(
     val value: String,
     val guildId: Long,
     val unicode: Boolean

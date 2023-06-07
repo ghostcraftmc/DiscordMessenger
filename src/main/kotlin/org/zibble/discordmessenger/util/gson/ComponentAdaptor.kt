@@ -81,7 +81,7 @@ class ComponentAdaptor : TypeAdapter<Component>() {
                     "custom_id" -> custom_id = getOrNull(input) { input.nextString() }
                     "url" -> url = getOrNull(input) { input.nextString() }
                     "disabled" -> disabled = input.nextBoolean()
-                    "emoji" -> emoji = DiscordMessenger.getInstance().gson.fromJson(getOrNull(input) { input.nextString() }, Emoji::class.java)
+                    "emoji" -> emoji = DiscordMessenger.instance.gson.fromJson(getOrNull(input) { input.nextString() }, Emoji::class.java)
                     else -> input.skipValue()
                 }
             }
@@ -102,7 +102,7 @@ class ComponentAdaptor : TypeAdapter<Component>() {
                     "minValues" -> minValues = input.nextInt()
                     "maxValues" -> maxValues = input.nextInt()
                     "disabled" -> disabled = input.nextBoolean()
-                    "options" -> options = DiscordMessenger.getInstance().gson.fromJson(input.nextString(), List::class.java) as List<SelectOption>
+                    "options" -> options = DiscordMessenger.instance.gson.fromJson(input.nextString(), List::class.java) as List<SelectOption>
                     else -> input.skipValue()
                 }
             }

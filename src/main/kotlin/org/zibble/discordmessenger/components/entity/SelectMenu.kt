@@ -2,7 +2,7 @@ package org.zibble.discordmessenger.components.entity
 
 import org.zibble.discordmessenger.components.Component
 
-class SelectMenu(
+data class SelectMenu(
     val id: String,
     val placeholder: String? = null,
     val minValues: Int,
@@ -134,4 +134,9 @@ class SelectMenu(
         }
     }
 
+}
+
+@Suppress("FunctionName")
+fun SelectMenuBuilder(customId: String, builder: SelectMenu.Builder.() -> Unit): SelectMenu {
+    return SelectMenu.create(customId).apply(builder).build()
 }

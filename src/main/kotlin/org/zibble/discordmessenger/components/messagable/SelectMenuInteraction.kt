@@ -8,7 +8,7 @@ import org.zibble.discordmessenger.components.entity.SelectOption
 import org.zibble.discordmessenger.components.entity.User
 import org.zibble.discordmessenger.components.readable.DiscordMessage
 
-class SelectMenuInteraction(
+data class SelectMenuInteraction(
     val menu: SelectMenu,
     val user: User,
     val channel: MessageChannel,
@@ -16,6 +16,6 @@ class SelectMenuInteraction(
     val selectedOptions: List<SelectOption>
 ) : Replyable, JsonSerializable {
 
-    override fun reply(message: DiscordMessage, ephermal: Boolean) = DiscordMessenger.replySelectMenu(menu, message, ephermal)
+    override suspend fun reply(message: DiscordMessage, ephemeral: Boolean) = DiscordMessenger.replySelectMenu(menu, message, ephemeral)
 
 }
