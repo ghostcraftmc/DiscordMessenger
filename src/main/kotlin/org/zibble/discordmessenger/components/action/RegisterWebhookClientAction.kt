@@ -7,7 +7,7 @@ class RegisterWebhookClientAction(
 ) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
-        fun fromNative(url: String): RegisterWebhookClientAction {
+        fun of(url: String): RegisterWebhookClientAction {
             return RegisterWebhookClientAction(WebhookUrl(url))
         }
     }
