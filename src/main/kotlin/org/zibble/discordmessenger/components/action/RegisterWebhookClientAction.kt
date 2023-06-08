@@ -1,9 +1,16 @@
 package org.zibble.discordmessenger.components.action
 
+import java.util.concurrent.ThreadLocalRandom
+
 class RegisterWebhookClientAction(
-    id: Long,
     val webhookUrl: WebhookUrl
-) : Action(id) {
+) : Action(ThreadLocalRandom.current().nextLong()) {
+
+    companion object {
+        fun fromNative(url: String): RegisterWebhookClientAction {
+            return RegisterWebhookClientAction(WebhookUrl(url))
+        }
+    }
 
     override fun getKey(): String = "registerWebhook"
 
