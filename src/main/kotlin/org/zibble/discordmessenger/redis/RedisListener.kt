@@ -1,21 +1,23 @@
 package org.zibble.discordmessenger.redis
 
+import com.google.common.cache.Cache
+import com.google.common.cache.CacheBuilder
 import com.google.gson.JsonObject
 import io.lettuce.core.pubsub.RedisPubSubAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.zibble.discordmessenger.DiscordMessenger
-import org.zibble.discordmessenger.interaction.buttons.ButtonFramework
-import org.zibble.discordmessenger.interaction.commands.CommandFramework
 import org.zibble.discordmessenger.components.action.reply.ActionReply
 import org.zibble.discordmessenger.components.entity.Permission
 import org.zibble.discordmessenger.components.messagable.ButtonInteraction
 import org.zibble.discordmessenger.components.messagable.LegacyCommand
 import org.zibble.discordmessenger.components.messagable.SelectMenuInteraction
 import org.zibble.discordmessenger.components.messagable.SlashCommand
+import org.zibble.discordmessenger.interaction.buttons.ButtonFramework
+import org.zibble.discordmessenger.interaction.commands.CommandFramework
 import org.zibble.discordmessenger.interaction.selectmenu.SelectMenuFramework
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 class RedisListener(
     private val coroutineScope: CoroutineScope
@@ -30,7 +32,11 @@ class RedisListener(
         const val SELECT_MENU_INTERACTION = "selectMenuInteraction"
         const val SELECT_MENU_REPLY = "selectMenuReply"
 
-        val waitingReply = ConcurrentHashMap<Long, CompletableFuture<ActionReply>>()
+        val waitingReply: Cache<Long, CompletableFuture<ActionReply>> = CacheBuilder.newBuilder()
+            .concurrencyLevel(2)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build()
     }
 
     override fun message(channel: String, message: String) {
@@ -47,7 +53,8 @@ class RedisListener(
             launch { CommandFramework.runCommand(command) }
         } else if (json.has(ACTION_REPLY)) {
             val reply = DiscordMessenger.instance.gson.fromJson(json[ACTION_REPLY], ActionReply::class.java)
-            waitingReply.remove(reply.actionId)?.complete(reply)
+            waitingReply.getIfPresent(reply.actionId)?.complete(reply)
+            waitingReply.invalidate(reply.actionId)
         } else if (json.has(BUTTON_INTERACTION)) {
             val interaction = DiscordMessenger.instance.gson.fromJson(json[BUTTON_INTERACTION], ButtonInteraction::class.java)
             launch { ButtonFramework.runAction(interaction) }

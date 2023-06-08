@@ -109,7 +109,7 @@ class DiscordMessenger : JavaPlugin() {
                 it.coroutines().publish(CHANNEL, json.toString())
             }
             val future = CompletableFuture<ActionReply>()
-            waitingReply[action.id] = future
+            waitingReply.put(action.id, future)
             return future
         }
     }

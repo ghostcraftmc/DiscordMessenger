@@ -1,16 +1,16 @@
 package org.zibble.discordmessenger.components.action
 
-import org.zibble.discordmessenger.components.entity.Emote
+import org.zibble.discordmessenger.components.entity.Emoji
 import java.util.concurrent.ThreadLocalRandom
 
 data class ReactEmoteAction(
     val channelId: Long,
     val messageId: Long,
-    val emote: Emote
+    val emote: Emoji
 ) : Action(ThreadLocalRandom.current().nextLong()) {
 
     companion object {
-        fun of(channelId: Long, messageId: Long, emote: Emote) : ReactEmoteAction = ReactEmoteAction(
+        fun of(channelId: Long, messageId: Long, emote: Emoji) : ReactEmoteAction = ReactEmoteAction(
             channelId,
             messageId,
             emote
