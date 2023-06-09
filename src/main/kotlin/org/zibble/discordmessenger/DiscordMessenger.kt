@@ -58,7 +58,13 @@ class DiscordMessenger : JavaPlugin() {
 
         val config = gson.fromJson(BufferedReader(FileReader(file)), Config::class.java)
 
-        redisClient = RedisClient.create("redis://" + config.password + "@" + config.host + ":" + config.port)
+        val user = if (config.username.isBlank()) {
+            config.password
+        } else {
+            config.username + ":" + config.password
+        }
+
+        redisClient = RedisClient.create("redis://$user@${config.host}:${config.port}")
         val pubsub = redisClient.connectPubSub()
         pubsub.addListener(RedisListener(coroutineScope))
         pubsub.async().subscribe(CHANNEL)
@@ -116,7 +122,8 @@ class DiscordMessenger : JavaPlugin() {
 }
 
 data class Config(
-    val host: String = "localhost",
+    val host: String = "",
     val port: Int = 6379,
-    val password: String = "default"
+    val username: String = "",
+    val password: String = ""
 )
