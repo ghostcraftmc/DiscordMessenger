@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.lettuce.core.ExperimentalLettuceCoroutinesApi
 import io.lettuce.core.RedisClient
-import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.coroutines
 import io.lettuce.core.api.coroutines.RedisCoroutinesCommands
 import kotlinx.coroutines.CoroutineName
@@ -13,8 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.bukkit.plugin.java.JavaPlugin
 import org.zibble.discordmessenger.components.Component
-import org.zibble.discordmessenger.components.action.Action
-import org.zibble.discordmessenger.components.action.reply.ActionReply
+import org.zibble.discordmessenger.components.action.SendableAction
+import org.zibble.discordmessenger.components.action.readable.ActionReplyAction
 import org.zibble.discordmessenger.components.entity.Button
 import org.zibble.discordmessenger.components.entity.SelectMenu
 import org.zibble.discordmessenger.components.readable.ButtonReply
@@ -116,12 +115,12 @@ class DiscordMessenger : JavaPlugin() {
             instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
         }
 
-        suspend fun sendAction(action: Action): CompletableFuture<ActionReply> {
+        suspend fun sendAction(action: SendableAction): CompletableFuture<ActionReplyAction> {
             val json = JsonObject().apply {
-                add(action.getKey(), action.toJson())
+                add(action.key, action.toJson())
             }
             instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
-            val future = CompletableFuture<ActionReply>()
+            val future = CompletableFuture<ActionReplyAction>()
             waitingReply.put(action.id, future)
             return future
         }

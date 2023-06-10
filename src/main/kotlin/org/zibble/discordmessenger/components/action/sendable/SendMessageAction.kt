@@ -1,12 +1,12 @@
-package org.zibble.discordmessenger.components.action
+package org.zibble.discordmessenger.components.action.sendable
 
+import org.zibble.discordmessenger.components.action.SendableAction
 import org.zibble.discordmessenger.components.readable.DiscordMessage
-import java.util.concurrent.ThreadLocalRandom
 
 data class SendMessageAction(
     val channelId: Long,
     val message: DiscordMessage
-) : Action(ThreadLocalRandom.current().nextLong()) {
+) : SendableAction("sendMessage", "Send Message") {
 
     companion object {
         fun of(channelId: Long, message: DiscordMessage) : SendMessageAction = SendMessageAction(
@@ -14,9 +14,5 @@ data class SendMessageAction(
             message
         )
     }
-
-    override fun getKey(): String = "sendMessage"
-
-    override fun getName(): String = "Send Message"
 
 }
