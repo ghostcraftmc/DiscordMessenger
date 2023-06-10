@@ -5,7 +5,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.lettuce.core.ExperimentalLettuceCoroutinesApi
 import io.lettuce.core.RedisClient
+import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.coroutines
+import io.lettuce.core.api.coroutines.RedisCoroutinesCommands
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,9 +34,17 @@ import java.io.FileReader
 import java.time.OffsetDateTime
 import java.util.concurrent.CompletableFuture
 
+@OptIn(ExperimentalLettuceCoroutinesApi::class)
 class DiscordMessenger : JavaPlugin() {
 
+    init {
+        instance = this
+    }
+
     lateinit var redisClient: RedisClient
+        private set
+
+    lateinit var coroutineRedisConnection: RedisCoroutinesCommands<String, String>
         private set
 
     val gson: Gson = GsonBuilder()
@@ -50,7 +60,6 @@ class DiscordMessenger : JavaPlugin() {
 
     override fun onEnable() {
         // Plugin startup logic
-        instance = this
         val file = File(dataFolder, "config.json")
         if (!file.exists()) {
             saveResource("config.json", false)
@@ -68,6 +77,12 @@ class DiscordMessenger : JavaPlugin() {
         val pubsub = redisClient.connectPubSub()
         pubsub.addListener(RedisListener(coroutineScope))
         pubsub.async().subscribe(CHANNEL)
+
+        coroutineRedisConnection = redisClient.connect().coroutines()
+    }
+
+    override fun onDisable() {
+        redisClient.shutdown()
     }
 
     @OptIn(ExperimentalLettuceCoroutinesApi::class)
@@ -82,9 +97,7 @@ class DiscordMessenger : JavaPlugin() {
             val json = JsonObject().apply {
                 add(RedisListener.COMMAND_REPLY, reply.toJson())
             }
-            instance.redisClient.connect().use {
-                it.coroutines().publish(CHANNEL, json.toString())
-            }
+            instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
         }
 
         suspend fun replyButton(button: Button, message: DiscordMessage, ephemeral: Boolean) {
@@ -92,9 +105,7 @@ class DiscordMessenger : JavaPlugin() {
             val json = JsonObject().apply {
                 add(RedisListener.BUTTON_REPLY, reply.toJson())
             }
-            instance.redisClient.connect().use {
-                it.coroutines().publish(CHANNEL, json.toString())
-            }
+            instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
         }
 
         suspend fun replySelectMenu(menu: SelectMenu, message: DiscordMessage, ephemeral: Boolean) {
@@ -102,18 +113,14 @@ class DiscordMessenger : JavaPlugin() {
             val json = JsonObject().apply {
                 add(RedisListener.SELECT_MENU_REPLY, reply.toJson())
             }
-            instance.redisClient.connect().use {
-                it.coroutines().publish(CHANNEL, json.toString())
-            }
+            instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
         }
 
         suspend fun sendAction(action: Action): CompletableFuture<ActionReply> {
             val json = JsonObject().apply {
                 add(action.getKey(), action.toJson())
             }
-            instance.redisClient.connect().use {
-                it.coroutines().publish(CHANNEL, json.toString())
-            }
+            instance.coroutineRedisConnection.publish(CHANNEL, json.toString())
             val future = CompletableFuture<ActionReply>()
             waitingReply.put(action.id, future)
             return future
