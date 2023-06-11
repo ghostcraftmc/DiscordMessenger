@@ -59,6 +59,10 @@ class DiscordMessenger : JavaPlugin() {
 
     override fun onEnable() {
         // Plugin startup logic
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs()
+        }
+
         val file = File(dataFolder, "config.json")
         if (!file.exists()) {
             saveResource("config.json", false)
@@ -128,8 +132,8 @@ class DiscordMessenger : JavaPlugin() {
 }
 
 data class Config(
-    val host: String = "",
-    val port: Int = 6379,
-    val username: String = "",
-    val password: String = ""
+    val host: String,
+    val port: Int,
+    val username: String,
+    val password: String
 )

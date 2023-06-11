@@ -11,8 +11,4 @@ data class RemoveRoleAction(
         fun of(memberId: Long, roleId: Long) : RemoveRoleAction = RemoveRoleAction(memberId, roleId)
     }
 
-    override fun getKey(): String = ""
-
-    override fun getName(): String = ""
-
 }
